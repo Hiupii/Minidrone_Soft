@@ -1,129 +1,182 @@
-/* Reset margin và padding cho trang */
-* {
+/* Thiết lập font chữ chung cho toàn bộ trang */
+body {
+  font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-}
-
-/* Thiết lập font và căn chỉnh cơ bản */
-body {
-  font-family: 'Arial', sans-serif;
-  background-color: #f4f4f4;
+  background-color: #f4f4f9;
   color: #333;
 }
 
+/* Cải thiện phần tiêu đề */
 .header {
-  background-color: blue;
+  background-color: #4CAF50;
   color: white;
-}
-
-.container {
-  padding: 20px;
-  background-color: white;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  height: 100vh;
-}
-
-header {
+  padding: 15px;
   text-align: center;
-  margin-bottom: 20px;
 }
 
-header h1 {
-  font-size: 2rem;
-  color: white;
-}
-
-/* Card layout cho các phần */
-.card {
-  background-color: #fff;
-  border-radius: 8px;
-  padding: 20px;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
+/* Container bao quanh ảnh và lịch sử ảnh */
 .container {
   display: flex;
+  justify-content: space-between; /* Chia đều không gian giữa 2 phần */
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
-/* Phần ảnh hiện tại chiếm 70% */
+/* Phần bên trái (Ảnh hiện tại) */
 .current-image-section {
-  flex: 7;
-  display: flex;
-  flex-direction: column;
-}
-
-.current-image-section img {
-  width: 100%;
-  height: auto;
+  width: 65%; /* Chiếm 70% chiều ngang */
+  background-color: #ffffff;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
-  margin-bottom: 10px;
-}
-
-/* Phần lịch sử ảnh chiếm 30% */
-.history-section {
-  flex: 3;
+  position: relative; /* Để popup được hiển thị đúng vị trí */
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: column; /* Đảm bảo ảnh và popup nằm theo chiều dọc */
+  justify-content: flex-start;
 }
 
-#history-container {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.history-image {
-  width: 100%;
-  height: auto;
-  cursor: pointer;
+#current-image {
+  width: 700px; /* Cố định kích thước ảnh hiện tại */
+  height: 350px;
+  display: block;
+  margin: 0 auto;
   border-radius: 8px;
-  transition: transform 0.2s ease-in-out;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease; /* Thêm hiệu ứng phóng to */
 }
 
-.history-image:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+/* Hiệu ứng phóng to cho ảnh hiện tại khi hover */
+#current-image:hover {
+  transform: scale(1.1); /* Phóng to ảnh hiện tại */
 }
 
-/* Nút đẹp mắt */
-.btn {
-  padding: 10px 20px;
-  font-size: 1rem;
-  background-color: #007bff;
+/* Thông tin thời gian chụp và nút xem chi tiết */
+#image-timestamp {
+  font-size: 16px;
+  color: #555;
+}
+
+#view-details {
+  background-color: #4CAF50;
   color: white;
+  padding: 10px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  font-size: 16px;
+  margin-top: 10px;
 }
 
-.btn:hover {
-  background-color: #0056b3;
+#view-details:hover {
+  background-color: #45a049;
 }
 
-/* Thông tin chi tiết của ảnh */
-.details-section {
-  display: none;
-  text-align: left;
+/* Phần bên phải (Lịch sử ảnh) */
+.history-section {
+  width: 28%; /* Chiếm 28% chiều ngang */
+  background-color: #ffffff;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow-y: auto; /* Cho phép cuộn dọc khi có quá nhiều ảnh */
+  height: 400px; /* Chiều cao cố định cho phần lịch sử ảnh */
+  margin-top: 20px; /* Khoảng cách với ảnh hiện tại */
 }
 
-/* Các phần thông tin chi tiết */
-.details-section p {
-  margin-bottom: 10px;
+
+.history-section h2 {
+  text-align: center;
 }
 
-.details-section h2 {
-  margin-bottom: 15px;
+/* Chứa các ảnh đầu tiên (3 ảnh) */
+#initial-images {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
 }
 
-#image-timestamp {
-  font-size: 24px; /* Tăng kích thước chữ */
-  font-weight: bold; /* Làm đậm chữ */
-  color: #333; /* Màu sắc chữ */
-  text-align: center; /* Căn giữa chữ */
-  margin-top: 20px; /* Thêm khoảng cách trên */
+#more-images {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;  
+}
+
+/* Các ảnh còn lại sẽ được cuộn dọc */
+#history-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-height: 300px; /* Giới hạn chiều cao phần chứa ảnh lịch sử */
+  overflow-y: auto; /* Cho phép cuộn khi có quá nhiều ảnh */
+}
+
+/* Các ảnh lịch sử (kích thước cố định) */
+.history-image {
+  width: 300px; /* Kích thước cố định */
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+/* Hiệu ứng phóng to khi hover vào ảnh */
+.history-image:hover {
+  transform: scale(1.1);
+}
+
+.history-image {
+  width: 300px; /* Cố định kích thước ảnh history */
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+/* Hiệu ứng phóng to cho ảnh trong lịch sử khi hover */
+.history-image:hover {
+  transform: scale(1.1);
+}
+
+.history-site {
+  margin-top: 0px;
+  padding-bottom: 70px;
+}
+
+/* Thêm style cho popup thông tin chi tiết */
+#detail-popup {
+  margin-top: 25px; /* Để tránh bị dính vào ảnh */
+  margin-left: 55px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 15px;
+  border-radius: 8px;
+  width: 700px; /* Cố định chiều rộng giống như ảnh hiện tại */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  pointer-events: none; /* Không làm gián đoạn các sự kiện chuột */
+  transition: opacity 0.3s ease;
+}
+
+/* Responsive: Điều chỉnh layout cho các thiết bị nhỏ */
+@media (max-width: 768px) {
+  .container {
+      flex-direction: column; /* Sắp xếp theo chiều dọc trên màn hình nhỏ */
+  }
+
+  .current-image-section,
+  .history-section {
+      width: 100%; /* Chiếm toàn bộ chiều rộng */
+      margin-bottom: 20px;
+  }
+
+  .history-image {
+      width: 80%;
+      max-width: 300px;
+  }
 }

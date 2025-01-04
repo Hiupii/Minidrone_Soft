@@ -7,46 +7,55 @@
   <link rel="stylesheet" href="../static/css/style.css">
 </head>
 <body>
-  <body>
   <div class="header">
     <header>
       <h1>Flycam Image Viewer</h1>
     </header>
-    </div>
-    <div class="container">
+  </div>
+  <div class="container">
 
     <!-- Hiển thị ảnh hiện tại -->
     <section class="current-image-section card">
       <h2>Ảnh hiện tại</h2>
       <img id="current-image" src="/static/resources/input.jpeg" alt="Current Flycam Image">
 
-      <p id="image-timestamp">Thời gian chụp: 2024-10-20 12:30</p>
       <button id="view-details" class="btn" style="display: none;">Xem chi tiết ảnh</button>
 
+      <!-- Popup thông tin chi tiết sẽ hiển thị trong phần trống dưới ảnh -->
+      <div id="detail-popup">
+        <p><strong>Thời gian chụp:</strong> <span id="detail-timestamp">2024-10-20 12:30</span></p>
+        <p><strong>Kích thước ảnh:</strong> 700x350</p>
+        <p><strong>Định dạng:</strong> JPEG</p>
+        <p><strong>IP Flycam:</strong> http://your-drone-ip-address</p>
+      </div>
     </section>
 
-    <!-- Xem lịch sử ảnh -->
-    
-    <!-- Thông tin chi tiết của ảnh -->
-    <section id="details" class="details-section card">
-      <h2>Thông tin chi tiết</h2>
-      <p><strong>Thời gian chụp:</strong> <span id="detail-timestamp">2024-10-20 12:30</span></p>
-      <p><strong>Kích thước ảnh:</strong> 600x400</p>
-      <p><strong>Định dạng:</strong> JPEG</p>
-      <p><strong>IP Flycam:</strong> http://your-drone-ip-address</p>
-    </section>
-    <section class="history-section card">
+    <!-- Phần lịch sử ảnh -->
+    <section class="history-section card history-site">
       <h2>Lịch sử ảnh</h2>
       <div id="history-container">
-        <!-- Ảnh trong lịch sử -->
-        <img class="history-image" src="http://your-drone-ip-address/image1.jpg" alt="History Image 1" data-timestamp="2024-10-19 14:00">
-        <img class="history-image" src="http://your-drone-ip-address/image2.jpg" alt="History Image 2" data-timestamp="2024-10-18 09:45">
-        <img class="history-image" src="http://your-drone-ip-address/image3.jpg" alt="History Image 3" data-timestamp="2024-10-17 16:20">
+        <!-- Ảnh hiển thị ban đầu (3 ảnh đầu tiên) -->
+        <div id="initial-images">
+          <img class="history-image" src="/static/resources/input.jpeg" alt="History Image 1" data-timestamp="2024-10-19 14:00">
+          <img class="history-image" src="/static/resources/input.jpeg" alt="History Image 2" data-timestamp="2024-10-18 09:45">
+          <img class="history-image" src="/static/resources/input.jpeg" alt="History Image 3" data-timestamp="2024-10-17 16:20">
+        </div>
+
+        <!-- Phần cuộn với thanh kéo cho ảnh còn lại -->
+        <div id="more-images">
+            <img class="history-image" src="/static/resources/input.jpeg" alt="History Image 4" data-timestamp="2024-10-16 14:10">
+            <img class="history-image" src="/static/resources/input.jpeg" alt="History Image 5" data-timestamp="2024-10-15 11:50">
+            <img class="history-image" src="/static/resources/input.jpeg" alt="History Image 6" data-timestamp="2024-10-14 13:30">
+            <img class="history-image" src="/static/resources/input.jpeg" alt="History Image 7" data-timestamp="2024-10-13 15:00">
+            <img class="history-image" src="/static/resources/input.jpeg" alt="History Image 8" data-timestamp="2024-10-12 12:10">
+            <img class="history-image" src="/static/resources/input.jpeg" alt="History Image 9" data-timestamp="2024-10-11 09:25">
+            <img class="history-image" src="/static/resources/input.jpeg" alt="History Image 10" data-timestamp="2024-10-10 08:50">
+          </div>
+        </div>
       </div>
     </section>
   </div>
-  
+
   <script src="../static/js/script.js"></script>
-  <script src="../static/js/image_handler.js"></script>
 </body>
 </html>

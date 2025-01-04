@@ -1,9 +1,20 @@
-// Xử lý giao diện và các sự kiện chung
+// Tạo sự kiện hover lâu hơn 2 giây để hiển thị popup
+let currentImage = document.getElementById("current-image");
+let detailPopup = document.getElementById("detail-popup");
+let hoverTimer;
 
-// Hiển thị thông tin chi tiết của ảnh
-const viewDetailsButton = document.getElementById('view-details');
-const detailsDiv = document.getElementById('details');
+// Khi chuột vào ảnh
+currentImage.addEventListener("mouseenter", function() {
+  hoverTimer = setTimeout(function() {
+    // Hiển thị popup dưới ảnh hiện tại
+    detailPopup.style.display = "block";
+    detailPopup.style.opacity = 1;
+  }, 500); // 2 giây
+});
 
-viewDetailsButton.addEventListener('click', function () {
-  detailsDiv.style.display = detailsDiv.style.display === 'none' ? 'block' : 'none';
+// Khi chuột ra khỏi ảnh
+currentImage.addEventListener("mouseleave", function() {
+  clearTimeout(hoverTimer); // Hủy bỏ nếu chuột rời trước 2 giây
+  detailPopup.style.display = "none";
+  detailPopup.style.opacity = 0; // Ẩn popup
 });
