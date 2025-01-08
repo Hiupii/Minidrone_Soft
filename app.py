@@ -5,12 +5,16 @@ from util import *
 
 # Init app
 app = Flask(__name__)
-app.secret_key = 'DHCNHN'
+app.secret_key = 'MiniDrone'
 
 # Main page
 @app.route('/')
 def index():
-    return render_template('index.html')
+    cookie = request.cookies.get('username')
+    if cookie is not None:
+        return render_template('index.html')
+    else:
+        return redirect(url_for('login_page'))
 
 # Login page
 @app.route('/login')
@@ -23,10 +27,13 @@ def Login():
     if request.method == 'POST':
         username = request.form['username'].strip()
         password = request.form['password'].strip()
-        login_status = IsValidLogin(username, password)
+        login_status = VerifyLogin(username, password)
 
         if login_status == True:
-            return redirect(url_for('index'))
+            index = make_response(redirect(url_for('index')))
+            index.set_cookie('username', username, max_age=360)
+            # index.set_cookie('ncode_username', utility.encode(username, "hoankiem"))
+            return index
         else:
             flash('Invalid username or password', 'error')
 

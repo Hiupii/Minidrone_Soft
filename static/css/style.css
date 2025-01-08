@@ -151,7 +151,7 @@ body {
 /* Thêm style cho popup thông tin chi tiết */
 #detail-popup {
   margin-top: 25px; /* Để tránh bị dính vào ảnh */
-  margin-left: 55px;
+  margin-left: 85px;
   background-color: rgba(0, 0, 0, 0.7);
   color: white;
   padding: 15px;
