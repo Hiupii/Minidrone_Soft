@@ -1,5 +1,4 @@
-from flask import Flask, jsonify, send_from_directory
-import os
+from flask import Flask, send_from_directory, Response
 from flask import render_template, url_for, make_response, request, session, redirect, flash, jsonify
 from util import *
 from werkzeug.serving import WSGIRequestHandler
@@ -10,6 +9,8 @@ WSGIRequestHandler.protocol_version = "HTTP/1.1"
 # Init app
 app = Flask(__name__)
 app.secret_key = 'MiniDrone'
+# Đặt biến flag để theo dõi thay đổi
+fileChangeFlag = False
 
 # Main page
 @app.route('/')
@@ -24,6 +25,27 @@ def index():
 @app.route('/login')
 def login_page():
     return render_template('login.html')
+
+# # API trả về danh sách 10 ảnh mới nhất (tên file)
+@app.route('/imagesList')
+def api_images():
+    images = get_image_files()
+    
+    # Trả về danh sách các từ điển với khóa 'filename'
+    return jsonify([{"filename": image} for image in images])
+
+# Định nghĩa SSE để thông báo JS về sự thay đổi
+def file_change_report():
+    global fileChangeFlag
+    while True:
+        if fileChangeFlag:
+            yield "data: update\n\n"
+            fileChangeFlag = False  # Reset flag sau khi gửi thông báo
+
+# SSE Route để nhận thông báo từ server
+@app.route('/events')
+def sse():
+    return Response(file_change_report(), content_type='text/event-stream')
 
 # API list
 @app.route('/login', methods=['POST', 'GET'])
@@ -45,6 +67,7 @@ def Login():
 
 @app.route('/upload', methods=['POST'])
 def upload_image():
+    global fileChangeFlag
     try:
         if request.headers.get('Content-Type') == 'image/jpeg':
             image_data = request.get_data()
@@ -63,6 +86,8 @@ def upload_image():
             # Lưu ảnh
             with open(file_path, 'wb') as f:
                 f.write(image_data)
+
+            fileChangeFlag = True
 
             return f"Image uploaded successfully as {file_name}!", 200
         else:
