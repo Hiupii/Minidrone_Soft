@@ -2,6 +2,10 @@ from flask import Flask, jsonify, send_from_directory
 import os
 from flask import render_template, url_for, make_response, request, session, redirect, flash, jsonify
 from util import *
+from werkzeug.serving import WSGIRequestHandler
+import time
+
+WSGIRequestHandler.protocol_version = "HTTP/1.1"
 
 # Init app
 app = Flask(__name__)
@@ -35,23 +39,30 @@ def Login():
 @app.route('/upload', methods=['POST'])
 def upload_image():
     try:
-        # Kiểm tra nếu dữ liệu được gửi dưới dạng binary
-        if 'Content-Type' in request.headers and request.headers['Content-Type'] == 'image/jpeg':
-            # Lấy dữ liệu ảnh từ body của request
+        if request.headers.get('Content-Type') == 'image/jpeg':
             image_data = request.get_data()
 
-            # Tạo đường dẫn file để lưu ảnh
-            file_path = os.path.join("uploads", "uploaded_image.jpg")
+            if not image_data:
+                return "No image data received", 400
 
-            # Ghi dữ liệu ảnh ra file
+            # Tạo tên file dựa trên thời gian
+            timestamp = time.strftime("%Y%m%d_%H%M%S")
+            file_name = f"uploaded_image_{timestamp}.jpg"
+            file_path = os.path.join("./static/resources/uploads", file_name)
+
+            # Đảm bảo thư mục lưu ảnh tồn tại
+            os.makedirs(os.path.dirname(file_path), exist_ok=True)
+
+            # Lưu ảnh
             with open(file_path, 'wb') as f:
                 f.write(image_data)
 
-            return "Image uploaded successfully!", 200
+            return f"Image uploaded successfully as {file_name}!", 200
         else:
             return "Invalid Content-Type", 400
     except Exception as e:
-        return f"Error: {str(e)}", 500
+        return jsonify({"error": str(e)}), 500
+
 
 # Định nghĩa đường dẫn tới thư mục chứa ảnh
 IMAGE_FOLDER = os.path.join(os.getcwd(), 'static/resources')
