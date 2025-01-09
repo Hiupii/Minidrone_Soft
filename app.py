@@ -17,7 +17,8 @@ fileChangeFlag = False
 def index():
     cookie = request.cookies.get('username')
     if cookie is not None:
-        return render_template('index.html')
+        imagesList = get_image_files()
+        return render_template('index.html', images = imagesList)
     else:
         return redirect(url_for('login_page'))
 
@@ -29,23 +30,17 @@ def login_page():
 # # API trả về danh sách 10 ảnh mới nhất (tên file)
 @app.route('/imagesList')
 def api_images():
-    images = get_image_files()
-    
+    imagesData = get_image_files()
+    images = []
+    for data in imagesData:
+        images.append(data["fileName"])
     # Trả về danh sách các từ điển với khóa 'filename'
     return jsonify([{"filename": image} for image in images])
 
-# Định nghĩa SSE để thông báo JS về sự thay đổi
-def file_change_report():
-    global fileChangeFlag
-    while True:
-        if fileChangeFlag:
-            yield "data: update\n\n"
-            fileChangeFlag = False  # Reset flag sau khi gửi thông báo
-
-# SSE Route để nhận thông báo từ server
-@app.route('/events')
-def sse():
-    return Response(file_change_report(), content_type='text/event-stream')
+@app.route('/imagesDetail')
+def api_images_detail():
+    imagesData = get_image_files()
+    return imagesData
 
 # API list
 @app.route('/login', methods=['POST', 'GET'])

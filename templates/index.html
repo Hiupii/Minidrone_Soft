@@ -17,16 +17,16 @@
     <!-- Hiển thị ảnh hiện tại -->
     <section class="current-image-section card">
       <h2>Ảnh hiện tại</h2>
-      <img id="current-image" src="/static/resources/input.jpeg" alt="Current Flycam Image">
+      <img id="current-image" src="{{ url_for('static', filename='resources/result/' + images[0]['fileName']) }}" alt="Current Flycam Image">
 
-      <button id="view-details" class="btn" style="display: none;">Xem chi tiết ảnh</button>
+      <!-- <button id="view-details" class="btn" style="display: none;">Xem chi tiết ảnh</button> -->
 
       <!-- Popup thông tin chi tiết sẽ hiển thị trong phần trống dưới ảnh -->
       <div id="detail-popup">
-        <p><strong>Thời gian chụp:</strong> <span id="detail-timestamp">2024-10-20 12:30</span></p>
-        <p><strong>Kích thước ảnh:</strong> 700x350</p>
-        <p><strong>Định dạng:</strong> JPEG</p>
-        <p><strong>IP Flycam:</strong> http://your-drone-ip-address</p>
+        <p><strong>Thời gian chụp:</strong> <span id="detail-timestamp">{{images[0]['fileTime']}}</span></p>
+        <p><strong>Kích thước ảnh:</strong> <span id="detail-size"></span>{{images[0]['fileSize']}}</span></p>
+        <p><strong>Định dạng:</strong>      <span id="detail-format"></span>{{images[0]['fileFormat']}}</span></p>
+        <!-- <p><strong>IP Flycam:</strong> http://your-drone-ip-address</p> -->
       </div>
     </section>
 
@@ -34,14 +34,12 @@
     <section class="history-section card history-site">
       <h2>Lịch sử ảnh</h2>
       <div id="history-container">
-        <!-- Ảnh hiển thị ban đầu (3 ảnh đầu tiên) -->
         <div id="initial-images">
           <img class="history-image" src="/static/resources/input.jpeg" alt="History Image 1" data-timestamp="2024-10-19 14:00">
           <img class="history-image" src="/static/resources/input.jpeg" alt="History Image 2" data-timestamp="2024-10-18 09:45">
           <img class="history-image" src="/static/resources/input.jpeg" alt="History Image 3" data-timestamp="2024-10-17 16:20">
         </div>
 
-        <!-- Phần cuộn với thanh kéo cho ảnh còn lại -->
         <div id="more-images">
             <img class="history-image" src="/static/resources/input.jpeg" alt="History Image 4" data-timestamp="2024-10-16 14:10">
             <img class="history-image" src="/static/resources/input.jpeg" alt="History Image 5" data-timestamp="2024-10-15 11:50">
@@ -52,7 +50,7 @@
             <img class="history-image" src="/static/resources/input.jpeg" alt="History Image 10" data-timestamp="2024-10-10 08:50">
           </div>
         </div>
-      </div>
+      </div> 
     </section>
   </div>
 
